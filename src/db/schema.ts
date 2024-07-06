@@ -1,9 +1,10 @@
 import { integer, real, text, sqliteTable } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
-  id: integer("id").primaryKey(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull(),
+  username: text("username").notNull(),
   password: text("password").notNull(),
   created_at: integer('created_at')
     .notNull()
@@ -13,11 +14,19 @@ export const users = sqliteTable("users", {
     .$defaultFn(() => Math.floor(new Date().getTime() / 1000)), // unix timestamp in seconds
 });
 
+export const sessions = sqliteTable("session", {
+	id: text("id").notNull().primaryKey(),
+	userId: text("user_id")
+		.notNull()
+		.references(() => users.id),
+	expiresAt: integer("expires_at").notNull()
+});
+
 export const categories = sqliteTable("categories", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   type: integer("type").notNull(), // 0: income, 1: expense
-  userId: integer("user_id").references(() => users.id).notNull(),
+  userId: text("user_id").references(() => users.id).notNull(),
   created_at: integer('created_at')
     .notNull()
     .$defaultFn(() => Math.floor(new Date().getTime() / 1000)), // unix timestamp in seconds
@@ -30,7 +39,7 @@ export const wallets = sqliteTable("wallets", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   balance: real("balance").notNull(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  userId: text("user_id").references(() => users.id).notNull(),
   created_at: integer('created_at')
     .notNull()
     .$defaultFn(() => Math.floor(new Date().getTime() / 1000)), // unix timestamp in seconds
@@ -44,7 +53,7 @@ export const savings = sqliteTable("savings", {
   name: text("name").notNull(),
   targetAmount: real("amount").notNull(),
   currentAmount: real("amount").notNull(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  userId: text("user_id").references(() => users.id).notNull(),
   created_at: integer('created_at')
     .notNull()
     .$defaultFn(() => Math.floor(new Date().getTime() / 1000)), // unix timestamp in seconds
@@ -58,7 +67,7 @@ export const transactions = sqliteTable("transactions", {
   amount: real("amount").notNull(),
   date: integer("date").notNull(), // unix timestamp in seconds
   description: text("description"),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  userId: text("user_id").references(() => users.id).notNull(),
   created_at: integer('created_at')
     .notNull()
     .$defaultFn(() => Math.floor(new Date().getTime() / 1000)), // unix timestamp in seconds

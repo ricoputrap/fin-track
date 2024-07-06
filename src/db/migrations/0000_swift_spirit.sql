@@ -2,7 +2,7 @@ CREATE TABLE `categories` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`type` integer NOT NULL,
-	`user_id` integer NOT NULL,
+	`user_id` text NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
@@ -36,9 +36,16 @@ CREATE TABLE `savings` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`amount` real NOT NULL,
-	`user_id` integer NOT NULL,
+	`user_id` text NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE TABLE `session` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
+	`expires_at` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
@@ -47,7 +54,7 @@ CREATE TABLE `transactions` (
 	`amount` real NOT NULL,
 	`date` integer NOT NULL,
 	`description` text,
-	`user_id` integer NOT NULL,
+	`user_id` text NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
@@ -66,7 +73,7 @@ CREATE TABLE `transfer_transactions` (
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
-	`id` integer PRIMARY KEY NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
 	`password` text NOT NULL,
@@ -78,7 +85,7 @@ CREATE TABLE `wallets` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`balance` real NOT NULL,
-	`user_id` integer NOT NULL,
+	`user_id` text NOT NULL,
 	`created_at` integer NOT NULL,
 	`updated_at` integer NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
