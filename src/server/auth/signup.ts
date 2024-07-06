@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { eq, or } from "drizzle-orm";
 
-import { lucia } from "@/lib/auth"
+import lucia from "@/lib/auth"
 import db from "@/db";
 import { users } from "@/db/schema";
 
@@ -34,7 +34,7 @@ const signupFormSchema = z.object({
  * @return {Promise<{error?: string, details?: any} | void>} - If the form data is invalid, returns an object with an error message and details.
  * If the email or username is already used, returns an object with an error message. If successful, redirects to the home page.
  */
-export async function signup(formData: FormData) {
+export default async function signup(formData: FormData) {
   const formValues = {
     name: formData.get("name"),
     email: formData.get("email"),

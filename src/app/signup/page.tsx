@@ -1,5 +1,5 @@
 import React from "react";
-import { signup } from "@/server/auth/signup";
+import { signup } from "@/server/auth";
 
 export default async function Page() {
 	return (

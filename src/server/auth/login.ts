@@ -3,7 +3,7 @@
 import { verify } from "@node-rs/argon2";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { lucia } from "@/lib/auth";
+import lucia from "@/lib/auth";
 import { z } from "zod";
 import db from "@/db";
 import { users } from "@/db/schema";
@@ -25,7 +25,7 @@ const loginFormSchema = z.object({
  * @return {Promise<{error?: string, details?: any} | void>} - If the login is unsuccessful, returns an object with an error message.
  * If successful, creates a session, sets a session cookie, and redirects to the home page.
  */
-export async function login(formData: FormData) {
+export default async function login(formData: FormData) {
 
   const formValues = {
     username: formData.get("username"),

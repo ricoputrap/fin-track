@@ -1,12 +1,12 @@
 // src/auth.ts
 import { Lucia } from "lucia";
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
-import db from "../db";
-import { users, sessions } from "../db/schema";
+import db from "@/db";
+import { users, sessions } from "@/db/schema";
 
 const adapter = new DrizzleSQLiteAdapter(db, sessions, users);
 
-export const lucia = new Lucia(adapter, {
+const lucia = new Lucia(adapter, {
 	sessionCookie: {
 		// this sets cookies with super long expiration
 		// since Next.js doesn't allow Lucia to extend cookie expiration when rendering pages
@@ -35,3 +35,5 @@ declare module "lucia" {
 interface DatabaseUserAttributes {
 	username: string;
 }
+
+export default lucia;

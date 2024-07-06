@@ -1,4 +1,4 @@
-import { login } from "@/server/auth/login";
+import { login } from "@/server/auth";
 import React from "react";
 
 export default async function Page() {
