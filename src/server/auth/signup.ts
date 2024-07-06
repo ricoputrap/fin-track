@@ -7,9 +7,9 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { eq, or } from "drizzle-orm";
 
-import { lucia } from "../../lib/auth"
-import db from "../../db";
-import { users } from "../../db/schema";
+import { lucia } from "@/lib/auth"
+import db from "@/db";
+import { users } from "@/db/schema";
 
 /**
  * Defines the schema for the signup form.
