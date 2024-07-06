@@ -1,9 +1,7 @@
 import React from "react";
-import { signup } from "../../server/auth";
-import { useFormState } from "react-dom";
+import { signup } from "../../server/auth/signup";
 
 export default async function Page() {
-  // const [] = useFormState(signup)
 	return (
 		<>
 			<h1>Create an account</h1>

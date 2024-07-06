@@ -1,6 +1,5 @@
 "use server";
 
-import { ActionResult } from "next/dist/server/app-render/types";
 import { hash } from "@node-rs/argon2";
 import { cookies } from "next/headers";
 import { generateIdFromEntropySize } from "lucia";
@@ -12,6 +11,9 @@ import { lucia } from "../../lib/auth"
 import db from "../../db";
 import { users } from "../../db/schema";
 
+/**
+ * Defines the schema for the signup form.
+ */
 const signupFormSchema = z.object({
   name: z.string().min(1).max(256),
   email: z.string().email(),
@@ -24,7 +26,15 @@ const signupFormSchema = z.object({
   password: z.string().min(6).max(255),
 });
 
-export async function signup(formData: FormData): Promise<ActionResult> {
+/**
+ * Signs up a user with the provided form data. Validates the form data, checks if the email or username is already used,
+ * and stores the user in the database. Creates a session for the user and sets a session cookie. Redirects to the home page.
+ *
+ * @param {FormData} formData - The form data containing the user's name, email, username, and password.
+ * @return {Promise<{error?: string, details?: any} | void>} - If the form data is invalid, returns an object with an error message and details.
+ * If the email or username is already used, returns an object with an error message. If successful, redirects to the home page.
+ */
+export async function signup(formData: FormData) {
   const formValues = {
     name: formData.get("name"),
     email: formData.get("email"),
