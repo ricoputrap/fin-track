@@ -11,7 +11,7 @@ import { eq } from "drizzle-orm";
 
 export interface ILoginFormState {
 	error: {
-		username?: string
+		email?: string
 		password?: string
 	}
 }
@@ -20,7 +20,7 @@ export interface ILoginFormState {
  * Defines the schema for the login form.
  */
 const loginFormSchema = z.object({
-  username: z.string().min(4).max(31).regex(/^[a-z0-9_-]+$/),
+	email: z.string().email(),
   password: z.string().min(6).max(255),
 });
 
@@ -36,32 +36,32 @@ const loginFormSchema = z.object({
 export default async function login(prevState: ILoginFormState, formData: FormData) {
 
 	// Simulate a slow network request (to show loading state)
-	await new Promise((resolve) => setTimeout(resolve, 2000));
+	await new Promise((resolve) => setTimeout(resolve, 1000));
 
   const formValues = {
-    username: formData.get("username"),
+    email: formData.get("email"),
     password: formData.get("password"),
   };
 
   // validate the form data
   const parsedForm = loginFormSchema.safeParse(formValues);
   if (!parsedForm.success) {
-		const { username, password } = parsedForm.error.flatten().fieldErrors;
+		const { email, password } = parsedForm.error.flatten().fieldErrors;
 		return {
 			error: {
-				username: username?.[0],
+				email: email?.[0],
 				password: password?.[0]
 			}
 		}
   }
 
-  const { username, password } = parsedForm.data;
+  const { email, password } = parsedForm.data;
 
 	const existingUser = await db
     .select()
     .from(users)
     .where(
-      eq(users.username, username.toLowerCase())
+      eq(users.email, email.toLowerCase())
     );
 
 	if (!existingUser.length) {

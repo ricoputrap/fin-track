@@ -15,6 +15,13 @@
       "when": 1720259332457,
       "tag": "0001_nasty_doomsday",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1720330461167,
+      "tag": "0002_sloppy_arclight",
+      "breakpoints": true
     }
   ]
 }

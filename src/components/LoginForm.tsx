@@ -18,13 +18,13 @@ const LoginForm: React.FC = () => {
 
 			<form action={action}>
 				<div className="flex flex-col mb-2">
-					<label htmlFor="username" className="font-bold">
-						Username
+					<label htmlFor="email" className="font-bold">
+						email
 					</label>
-					<input name="username" id="username" />
-					{state.error.username && (
+					<input type="email" name="email" id="email" />
+					{state.error.email && (
 						<p className="text-red-500">
-							{state.error.username}
+							{state.error.email}
 						</p>
 					)}
 				</div>

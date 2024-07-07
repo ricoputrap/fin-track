@@ -17,12 +17,6 @@ import { users } from "@/db/schema";
 const signupFormSchema = z.object({
   name: z.string().min(1).max(256),
   email: z.string().email(),
-
-  // username must be between 4 ~ 31 characters,
-  // and only consists of lowercase letters, 0-9, -, and _
-  username: z.string().min(4).max(31).regex(/^[a-z0-9_-]+$/),
-
-  // password must be between 6 ~ 255 characters
   password: z.string().min(6).max(255),
 });
 
@@ -30,7 +24,7 @@ const signupFormSchema = z.object({
  * Signs up a user with the provided form data. Validates the form data, checks if the email or username is already used,
  * and stores the user in the database. Creates a session for the user and sets a session cookie. Redirects to the home page.
  *
- * @param {FormData} formData - The form data containing the user's name, email, username, and password.
+ * @param {FormData} formData - The form data containing the user's name, email, and password.
  * @return {Promise<{error?: string, details?: any} | void>} - If the form data is invalid, returns an object with an error message and details.
  * If the email or username is already used, returns an object with an error message. If successful, redirects to the home page.
  */
@@ -38,7 +32,6 @@ export default async function signup(formData: FormData) {
   const formValues = {
     name: formData.get("name"),
     email: formData.get("email"),
-    username: formData.get("username"),
     password: formData.get("password"),
   };
 
@@ -53,7 +46,6 @@ export default async function signup(formData: FormData) {
 
   const {
     name,
-    username,
     password,
     email
   } = parsedForm.data;
@@ -82,15 +74,14 @@ export default async function signup(formData: FormData) {
     .from(users)
     .where(
       or(
-        eq(users.email, email),
-        eq(users.username, username)
+        eq(users.email, email)
       )
     )
 
   // username or email is already used
   if (user.length > 0) {
     return {
-      error: "Username or email is already used",
+      error: "Email is already used",
     };
   }
 
@@ -99,7 +90,6 @@ export default async function signup(formData: FormData) {
     id: userId,
     name,
     email,
-    username,
     password: passwordHash
   });
 
