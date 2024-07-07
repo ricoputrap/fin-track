@@ -1,6 +1,6 @@
+import Link from "next/link";
 import validateRequest from "@/lib/validate-request";
 import { logout } from "@/server/auth";
-import Link from "next/link";
 
 export default async function Home() {
   const result = await validateRequest();

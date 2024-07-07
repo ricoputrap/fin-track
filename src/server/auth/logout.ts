@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import validateRequest from "../../lib/validate-request"
 import lucia from "../../lib/auth";
 
-export default async function logout() {
+export default async function logout(prevState: any) {
 	const { session } = await validateRequest();
 	if (!session) {
 		return {

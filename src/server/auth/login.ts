@@ -9,6 +9,13 @@ import db from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+export interface ILoginFormState {
+	error: {
+		username?: string
+		password?: string
+	}
+}
+
 /**
  * Defines the schema for the login form.
  */
@@ -21,11 +28,15 @@ const loginFormSchema = z.object({
  * Logs in a user with the provided form data. Validates the form data, checks if the username exists,
  * verifies the password, creates a session, sets a session cookie, and redirects to the home page.
  *
+ * @param {ILoginFormState} prevState - The previous state of the login form.
  * @param {FormData} formData - The form data containing the username and password.
- * @return {Promise<{error?: string, details?: any} | void>} - If the login is unsuccessful, returns an object with an error message.
+ * @return {Promise<ILoginFormState | void>} - If the login is unsuccessful, returns an object with an error message.
  * If successful, creates a session, sets a session cookie, and redirects to the home page.
  */
-export default async function login(formData: FormData) {
+export default async function login(prevState: ILoginFormState, formData: FormData) {
+
+	// Simulate a slow network request (to show loading state)
+	await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const formValues = {
     username: formData.get("username"),
@@ -35,10 +46,13 @@ export default async function login(formData: FormData) {
   // validate the form data
   const parsedForm = loginFormSchema.safeParse(formValues);
   if (!parsedForm.success) {
-    return {
-      error: "Invalid login data",
-      details: parsedForm.error.errors
-    };
+		const { username, password } = parsedForm.error.flatten().fieldErrors;
+		return {
+			error: {
+				username: username?.[0],
+				password: password?.[0]
+			}
+		}
   }
 
   const { username, password } = parsedForm.data;
@@ -61,7 +75,9 @@ export default async function login(formData: FormData) {
 		// it is crucial your implementation is protected against brute-force attacks with login throttling etc.
 		// If usernames are public, you may outright tell the user that the username is invalid.
 		return {
-			error: "Incorrect username or password"
+			error: {
+				username: "Incorrect username"
+			}
 		};
 	}
 
@@ -75,12 +91,14 @@ export default async function login(formData: FormData) {
 	});
 	if (!validPassword) {
 		return {
-			error: "Incorrect username or password"
+			error: {
+				password: "Incorrect password"
+			}
 		};
 	}
 
 	const session = await lucia.createSession(user.id, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
 	cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-	return redirect("/");
+	redirect("/");
 }
