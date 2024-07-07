@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useFormStatus } from 'react-dom';
+import { Button } from "@/components/ui/button"
 
 interface Props {
   label: string;
@@ -11,9 +12,9 @@ const FormButton: React.FC<Props> = ({ label }) => {
   const { pending } = useFormStatus();
 
   return (
-    <button disabled={pending} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <Button variant="default" disabled={pending}>
       {pending ? "Loading..." : label}
-    </button>
+    </Button>
   )
 }
 
