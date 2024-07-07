@@ -21,7 +21,7 @@ export interface ILoginFormState {
  */
 const loginFormSchema = z.object({
 	email: z.string().email(),
-  password: z.string().min(6).max(255),
+  password: z.string(),
 });
 
 /**
@@ -76,7 +76,7 @@ export default async function login(prevState: ILoginFormState, formData: FormDa
 		// If usernames are public, you may outright tell the user that the username is invalid.
 		return {
 			error: {
-				username: "Incorrect username"
+				email: "Email not found"
 			}
 		};
 	}
@@ -89,6 +89,7 @@ export default async function login(prevState: ILoginFormState, formData: FormDa
 		outputLen: 32,
 		parallelism: 1
 	});
+
 	if (!validPassword) {
 		return {
 			error: {
