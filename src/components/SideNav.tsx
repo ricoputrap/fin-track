@@ -5,31 +5,31 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
-import { logout } from '@/server/auth';
+import EnumRoutes from "@/enums/EnumRoutes"
 
 const menus = [
   {
-    href: '/dashboard',
+    href: EnumRoutes.DASHBOARD,
     label: 'Dashboard',
   },
   {
-    href: '/transactions',
+    href: EnumRoutes.TRANSACTIONS,
     label: 'Transactions',
   },
   {
-    href: '/budgets',
+    href: EnumRoutes.BUDGETS,
     label: 'Budgets',
   },
   {
-    href: '/categories',
+    href: EnumRoutes.CATEGORIES,
     label: 'Categories',
   },
   {
-    href: '/wallets',
+    href: EnumRoutes.WALLETS,
     label: 'Wallets',
   },
   {
-    href: '/goals',
+    href: EnumRoutes.GOALS,
     label: 'Goals',
   },
 ]

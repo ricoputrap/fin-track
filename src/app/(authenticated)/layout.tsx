@@ -1,6 +1,7 @@
 import React from "react";
-import SideNav from "../../components/SideNav";
 import Image from "next/image";
+import SideNav from "../../components/SideNav";
+import Header from "@/components/Header"
 
 export default function AuthenticatedLayout({
   children, // will be a page or nested layout
@@ -26,8 +27,9 @@ export default function AuthenticatedLayout({
           <SideNav />
         </div>
       </aside>
-      <div className="flex-1">
-        <main className="bg-white h-full rounded-sm p-4">
+      <div className="flex-1 flex flex-col bg-white rounded-sm">
+        <Header />
+        <main className="flex-1 p-4">
           {children}
         </main>
       </div>

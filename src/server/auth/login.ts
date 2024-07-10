@@ -101,5 +101,5 @@ export default async function login(prevState: ILoginFormState, formData: FormDa
 	const session = await lucia.createSession(user.id, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
 	cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-	redirect("/");
+	redirect("/dashboard");
 }
