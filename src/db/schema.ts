@@ -1,3 +1,4 @@
+import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { integer, real, text, sqliteTable } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
@@ -113,3 +114,21 @@ export const savingTransactions = sqliteTable("saving_transactions", {
     .notNull()
     .$defaultFn(() => Math.floor(new Date().getTime() / 1000)), // unix timestamp in seconds
 });
+
+export type IUser = InferSelectModel<typeof users>;
+export type ICategory = InferSelectModel<typeof categories>;
+export type IWallet = InferSelectModel<typeof wallets>;
+export type ISaving = InferSelectModel<typeof savings>;
+export type ITransaction = InferSelectModel<typeof transactions>;
+export type IIncomeExpenseTransaction = InferSelectModel<typeof incomeExpenseTransactions>;
+export type ITransferTransaction = InferSelectModel<typeof transferTransactions>;
+export type ISavingTransaction = InferSelectModel<typeof savingTransactions>;
+
+export type INewUser = InferInsertModel<typeof users>;
+export type INewCategory = InferInsertModel<typeof categories>;
+export type INewWallet = InferInsertModel<typeof wallets>;
+export type INewSaving = InferInsertModel<typeof savings>;
+export type INewTransaction = InferInsertModel<typeof transactions>;
+export type INewIncomeExpenseTransaction = InferInsertModel<typeof incomeExpenseTransactions>;
+export type INewTransferTransaction = InferInsertModel<typeof transferTransactions>;
+export type INewSavingTransaction = InferInsertModel<typeof savingTransactions>;
