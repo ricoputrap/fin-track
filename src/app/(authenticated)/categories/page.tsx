@@ -1,13 +1,14 @@
 import React, { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import CategoryTable from "@/components/CategoryTable"
+import AddCategory from "@/components/AddCategory";
 
 export default function Page() {
 
   return (
     <div className="py-8">
       <div className="flex justify-end">
-        <Button>Add Category</Button>
+        <AddCategory />
       </div>
 
       <div className="mt-4">
