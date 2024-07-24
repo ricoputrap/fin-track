@@ -35,6 +35,7 @@ import { categorySchema } from "@/schemas";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast"
+import { addCategory } from "@/server/categories";
 
 type Category = z.infer<typeof categorySchema>;
 
@@ -54,10 +55,24 @@ const AddCategory = () => {
 
   const onSubmit = async (data: Category) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
+    const result = await addCategory(data);
+
+    // show an error toast if the request fails
+    if (!result.success) {
+      toast({
+        title: "Error!",
+        description: result.error.message || "Failed to add new category.",
+        variant: "destructive"
+      });
+
+      return;
+    }
+
+    // close the drawer and reset the form
     setIsOpen(false);
     form.reset();
 
+    // show a success toast
     toast({
       title: "Success!",
       description: "New category added.",

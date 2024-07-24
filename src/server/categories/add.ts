@@ -5,6 +5,8 @@ import CategoryRepository from "./repository"
 import validateRequest from "@/lib/validate-request";
 import { categorySchema } from "@/schemas";
 
+type Category = z.infer<typeof categorySchema>;
+
 export interface IAddCategoryFormState {
   success: boolean;
   error: {
@@ -16,7 +18,7 @@ export interface IAddCategoryFormState {
   }
 }
 
-export default async function addCategory(formData: FormData) {
+export default async function addCategory(data: Category) {
   // validate the user session
   const result = await validateRequest();
   if (!result.user) {
@@ -28,13 +30,8 @@ export default async function addCategory(formData: FormData) {
     };
   }
 
-  const formValues = {
-    name: formData.get("name"),
-    type: formData.get("type"),
-  };
-
   // validate the form data
-  const parsedForm = categorySchema.safeParse(formValues);
+  const parsedForm = categorySchema.safeParse(data);
   if (!parsedForm.success) {
     const { name, type } = parsedForm.error.flatten().fieldErrors;
     return {
@@ -50,9 +47,24 @@ export default async function addCategory(formData: FormData) {
 
   const { name, type } = parsedForm.data;
 
-  // TODO: validate if category already exists
-
   const repository = new CategoryRepository();
+
+  // validate if category already exists
+  const existingCategory = await repository.getOne({
+    userId: result.user.id,
+    name,
+    type: parseInt(type)
+  });
+
+  // category already exists
+  if (existingCategory) {
+    return {
+      success: false,
+      error: {
+        message: "Category already exists."
+      }
+    }
+  }
 
   const newCategory = await repository.addCategory({
     name,
@@ -60,7 +72,6 @@ export default async function addCategory(formData: FormData) {
     userId: result.user.id
   });
 
-  console.log("+++++ newCategory:", newCategory);
   return {
     success: true,
     error: {}

@@ -1,5 +1,5 @@
-import { eq } from "drizzle-orm";
-import ICategoryRepository from "./repository.types";
+import { and, eq, or } from "drizzle-orm";
+import ICategoryRepository, { TParamsGetOne } from "./repository.types";
 import { categories, ICategory, INewCategory } from "@/db/schema";
 import db from "@/db";
 
@@ -13,6 +13,37 @@ class CategoryRepository implements ICategoryRepository {
       );
 
     return result;
+  }
+
+  async getOne({ userId, id, name, type }: TParamsGetOne): Promise<ICategory | undefined> {
+    // construct the where clause if id, name, and type is provided
+    if (!id && !name && !type) {
+      return undefined;
+    }
+
+    const result = await db
+      .select()
+      .from(categories)
+      .where(
+        and(
+          eq(categories.userId, userId),
+          or(
+            id ? eq(categories.id, id) : undefined,
+          ),
+          or(
+            name ? eq(categories.name, name) : undefined,
+          ),
+          or(
+            type ? eq(categories.type, type) : undefined,
+          ),
+        )
+      )
+
+    // not found
+    if (result.length == 0)
+      return undefined
+
+    return result[0];
   }
 
   async addCategory(category: INewCategory): Promise<ICategory> {
