@@ -1,21 +1,13 @@
 import React from "react";
-import validateRequest from "@/lib/validate-request";
-import CategoryAPI from "@/server/categories";
 import DataTable from "@/components/ui/data-table"
 import { columns } from "./columns";
+import { getAllCategories } from "@/server/categories"
 
 const CategoryTable = async () => {
-  const { user } = await validateRequest();
-  const { success, data, error } = await CategoryAPI.getAll(user?.id || "");
-
-  if (!success) {
-    return (
-      <div>{error}</div>
-    )
-  }
+  const result = await getAllCategories();
 
   return (
-    <DataTable columns={columns} data={data} />
+    <DataTable columns={columns} data={result} />
   )
 }
 

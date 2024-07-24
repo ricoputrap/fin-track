@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import { Button } from "@/components/ui/button";
 import CategoryTable from "@/components/CategoryTable"
 import AddCategory from "@/components/AddCategory";
 

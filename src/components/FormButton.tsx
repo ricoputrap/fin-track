@@ -12,7 +12,7 @@ const FormButton: React.FC<Props> = ({ label }) => {
   const { pending } = useFormStatus();
 
   return (
-    <Button variant="default" disabled={pending} className="w-full">
+    <Button type='submit' variant="default" disabled={pending} className="w-full">
       {pending ? "Loading..." : label}
     </Button>
   )
