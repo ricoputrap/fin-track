@@ -31,4 +31,13 @@ const startSeeding = async () => {
   console.log("Seeding done!")
 }
 
-startSeeding();
+// startSeeding();
+
+const addData = async () => {
+  await db.insert(categories).values({
+    name: "Education",
+    type: 1,
+    userId: "d7a5tu5ynwiay445"
+  });
+}
+addData();
