@@ -66,7 +66,7 @@ export default async function addCategory(data: Category) {
     }
   }
 
-  const newCategory = await repository.addCategory({
+  await repository.addCategory({
     name,
     type: parseInt(type),
     userId: result.user.id

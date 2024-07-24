@@ -9,6 +9,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -39,7 +40,7 @@ import { addCategory } from "@/server/categories";
 
 type Category = z.infer<typeof categorySchema>;
 
-const AddCategory = () => {
+const AddCategory: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { toast } = useToast()
 
@@ -79,6 +80,10 @@ const AddCategory = () => {
     })
   }
 
+  const handleSubmit = () => {
+    form.handleSubmit(onSubmit)();
+  }
+
   return (
     <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
@@ -92,10 +97,7 @@ const AddCategory = () => {
 
         <div className="flex-1 mt-2 px-4 py-4">
           <Form {...form}>
-            <form
-              className="h-full flex flex-col justify-between"
-              onSubmit={form.handleSubmit(onSubmit)}
-            >
+            <form className="h-full flex flex-col justify-between">
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
@@ -133,24 +135,29 @@ const AddCategory = () => {
                   )}
                 />
               </div>
-
-              <div className="mt-auto flex gap-4">
-                <div className="flex-1">
-                  <Button type="submit" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? "Submitting..." : "Submit"}
-                  </Button>
-                </div>
-                <div className="flex-1">
-                  <DrawerClose asChild>
-                    <Button type="button" variant="outline" className="w-full">
-                      Cancel
-                    </Button>
-                  </DrawerClose>
-                </div>
-              </div>
             </form>
           </Form>
         </div>
+
+        <DrawerFooter className="mt-auto flex flex-row gap-4">
+          <div className="flex-1">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </Button>
+          </div>
+          <div className="flex-1">
+            <DrawerClose asChild>
+              <Button type="button" variant="outline" className="w-full">
+                Cancel
+              </Button>
+            </DrawerClose>
+          </div>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )
