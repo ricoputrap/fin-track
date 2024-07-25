@@ -15,28 +15,13 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { categorySchema } from "@/schemas";
-
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast"
 import { addCategory } from "@/server/categories";
+import FormInputField from "../ui/form-input-field";
+import FormSelectField from "../ui/form-select-field";
+import { categorySchema } from "@/schemas";
 
 type Category = z.infer<typeof categorySchema>;
 
@@ -99,40 +84,22 @@ const AddCategory: React.FC = () => {
           <Form {...form}>
             <form className="h-full flex flex-col justify-between">
               <div className="flex flex-col gap-4">
-                <FormField
+                <FormInputField
                   control={form.control}
                   name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Entertainment" {...field} required />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Name"
+                  placeholder="Entertainment"
                 />
 
-                <FormField
+                <FormSelectField
                   control={form.control}
                   name="type"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Type</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="1">Expense</SelectItem>
-                          <SelectItem value="0">Income</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label="Type"
+                  options={[
+                    { value: "1", label: "Expense" },
+                    { value: "0", label: "Income" },
+                  ]}
+                  placeholder="Select a category type"
                 />
               </div>
             </form>
