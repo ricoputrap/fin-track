@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ICategory } from "../../db/schema";
+import { ICategory } from "@/db/schema";
 
 export const columns: ColumnDef<ICategory>[] = [
   {
