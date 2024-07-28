@@ -1,8 +1,8 @@
 "use server";
 
 import validateRequest from "@/lib/validate-request";
-import { TParamsGetOne } from "./repository.types";
-import CategoryRepository from "./repository";
+import { TParamsGetOne } from "@/repositories/category/index.types"
+import CategoryRepository from "@/repositories/category"
 
 export default async function getOneCategory(params: TParamsGetOne) {
   // validate the user session

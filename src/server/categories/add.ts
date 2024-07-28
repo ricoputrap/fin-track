@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import CategoryRepository from "./repository"
+import CategoryRepository from "@/repositories/category"
 import validateRequest from "@/lib/validate-request";
 import { categorySchema } from "@/schemas";
 

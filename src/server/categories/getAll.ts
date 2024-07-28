@@ -1,6 +1,6 @@
 "use server";
 
-import CategoryRepository from "./repository";
+import CategoryRepository from "@/repositories/category"
 import validateRequest from "@/lib/validate-request";
 
 export default async function getAllCategories() {

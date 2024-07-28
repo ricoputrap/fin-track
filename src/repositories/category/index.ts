@@ -1,7 +1,7 @@
 import { and, eq, or } from "drizzle-orm";
-import ICategoryRepository, { TParamsGetOne } from "./repository.types";
 import { categories, ICategory, INewCategory } from "@/db/schema";
 import db from "@/db";
+import ICategoryRepository, { TParamsGetOne } from "./index.types";
 
 class CategoryRepository implements ICategoryRepository {
   async getAll(userId: string): Promise<ICategory[]> {
