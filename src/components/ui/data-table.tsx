@@ -4,9 +4,11 @@ import React from "react";
 
 import {
   ColumnDef,
+  ColumnFiltersState,
   SortingState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -20,17 +22,25 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"
+import { ScrollArea } from "./scroll-area";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
+  search?: {
+    name: string;
+    placeholder: string;
+  }
 }
 
 export default function DataTable<TData, TValue>({
   columns,
   data,
+  search
 }: DataTableProps<TData, TValue>) {
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
@@ -38,16 +48,32 @@ export default function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     onSortingChange: setSorting,
+    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
+      columnFilters
     }
   });
 
   return (
     <>
-      <div className="rounded-md border">
+      {search && (
+        <div className="flex items-center py-4">
+          <Input
+            placeholder={search.placeholder}
+            value={(table.getColumn(search.name)?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn(search.name)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+      )}
+
+      <ScrollArea className="h-[60vh] rounded-md border">
         <Table>
 
           <TableHeader>
@@ -94,7 +120,7 @@ export default function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
+      </ScrollArea>
 
       <div className="flex items-center justify-end space-x-2 py-4">
         <Button

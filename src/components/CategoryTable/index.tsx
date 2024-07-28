@@ -7,7 +7,14 @@ const CategoryTable = async () => {
   const result = await getAllCategories();
 
   return (
-    <DataTable columns={columns} data={result} />
+    <DataTable
+      columns={columns}
+      data={result}
+      search={{
+        name: "name",
+        placeholder: "Search category..."
+      }}
+    />
   )
 }
 
