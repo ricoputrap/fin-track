@@ -27,7 +27,9 @@ export default function RootLayout({
         fontSans.variable
       )}>
         {children}
-        <Toaster />
+        <div className="mb-4 mr-4">
+          <Toaster />
+        </div>
       </body>
     </html>
   );

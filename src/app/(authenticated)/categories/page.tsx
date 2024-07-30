@@ -5,12 +5,12 @@ import AddCategory from "@/components/AddCategory";
 export default function Page() {
 
   return (
-    <div className="py-8">
+    <div>
       <div className="flex justify-end">
         <AddCategory />
       </div>
 
-      <div className="mt-4">
+      <div>
         <Suspense fallback={<div>Loading...</div>}>
           <CategoryTable />
         </Suspense>

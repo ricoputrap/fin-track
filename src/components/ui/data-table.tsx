@@ -22,9 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "./scroll-area";
+import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -73,7 +73,7 @@ export default function DataTable<TData, TValue>({
         </div>
       )}
 
-      <ScrollArea className="h-[60vh] rounded-md border">
+      <ScrollArea className="h-[65vh] rounded-md border">
         <Table>
 
           <TableHeader>
@@ -122,23 +122,8 @@ export default function DataTable<TData, TValue>({
         </Table>
       </ScrollArea>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="mt-4">
+        <DataTablePagination table={table} />
       </div>
     </>
   )
