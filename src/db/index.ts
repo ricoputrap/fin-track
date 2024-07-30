@@ -1,13 +1,8 @@
-import * as schema from "./schema";
-import { drizzle } from 'drizzle-orm/libsql';
-import { createClient } from '@libsql/client';
-import { env } from "@/env"
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import Database from 'better-sqlite3';
+import { env } from '@/env';
 
-const client = createClient({
-  url: env.DATABASE_URL!,
-  authToken: env.DB_AUTH_TOKEN
-});
-
-const db = drizzle(client, { schema });
+const sqlite = new Database(env.DATABASE_URL);
+const db = drizzle(sqlite);
 
 export default db;

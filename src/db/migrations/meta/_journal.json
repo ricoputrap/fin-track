@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1720136177715,
-      "tag": "0000_swift_spirit",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1720259332457,
-      "tag": "0001_nasty_doomsday",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1720330461167,
-      "tag": "0002_sloppy_arclight",
+      "when": 1722262648787,
+      "tag": "0000_pink_the_phantom",
       "breakpoints": true
     }
   ]
