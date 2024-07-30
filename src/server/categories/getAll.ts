@@ -12,5 +12,6 @@ export default async function getAllCategories() {
 
   // get all categories
   const repository = new CategoryRepository();
-  return repository.getAll(result.user.id);
+  const categories = await repository.getAll(result.user.id);
+  return categories;
 }

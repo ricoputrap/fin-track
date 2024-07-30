@@ -41,7 +41,7 @@ const useAddCategoryForm = (close: () => void) => {
     toast({
       title: "Success!",
       description: "New category added.",
-    })
+    });
   }
 
   const handleSubmit = () => {

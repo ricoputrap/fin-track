@@ -4,6 +4,7 @@ import { z } from "zod";
 import CategoryRepository from "@/repositories/category"
 import validateRequest from "@/lib/validate-request";
 import { categorySchema } from "@/schemas";
+import { revalidatePath } from "next/cache";
 
 type Category = z.infer<typeof categorySchema>;
 
@@ -71,6 +72,8 @@ export default async function addCategory(data: Category) {
     type: parseInt(type),
     userId: result.user.id
   });
+
+  revalidatePath("/categories");
 
   return {
     success: true,
