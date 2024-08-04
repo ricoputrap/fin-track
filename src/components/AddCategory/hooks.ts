@@ -19,7 +19,6 @@ const useAddCategoryForm = (close: () => void) => {
   });
 
   const onSubmit = async (data: Category) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     const result = await addCategory(data);
 
     // show an error toast if the request fails

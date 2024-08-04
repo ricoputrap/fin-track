@@ -10,7 +10,8 @@ class CategoryRepository implements ICategoryRepository {
       .from(categories)
       .where(
         eq(categories.userId, userId)
-      );
+      )
+      .orderBy(categories.name);
 
     return result;
   }
