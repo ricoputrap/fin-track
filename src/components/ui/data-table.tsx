@@ -82,7 +82,7 @@ export default function DataTable<TData, TValue>({
 
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} style={{ width: `${header.getSize()}px` }}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
