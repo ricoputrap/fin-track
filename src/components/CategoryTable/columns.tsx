@@ -12,6 +12,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import ActionMenuItems from "./ActionMenuItems";
 
 
 export const columns: ColumnDef<ICategory>[] = [
@@ -64,9 +65,7 @@ export const columns: ColumnDef<ICategory>[] = [
 
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>View details</DropdownMenuItem>
-            <DropdownMenuItem>Edit data</DropdownMenuItem>
-            <DropdownMenuItem>Delete data</DropdownMenuItem>
+            <ActionMenuItems data={data} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

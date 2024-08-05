@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import CategoryTable from "@/components/CategoryTable"
 import AddCategory from "@/components/AddCategory";
+import CategoryDetail from "../../../components/CategoryDetail";
 
 export default function Page() {
 
@@ -16,6 +17,7 @@ export default function Page() {
         </Suspense>
       </div>
 
+      <CategoryDetail />
     </div>
   );
 }
