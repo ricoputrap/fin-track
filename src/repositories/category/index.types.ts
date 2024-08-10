@@ -11,6 +11,7 @@ interface ICategoryRepository {
   getAll: (userId: string) => Promise<ICategory[]>;
   getOne: (params: TParamsGetOne) => Promise<ICategory | undefined>;
   addCategory: (category: INewCategory) => Promise<ICategory>;
+  editCategory: (id: number, category: INewCategory) => Promise<ICategory>;
 }
 
 export default ICategoryRepository;

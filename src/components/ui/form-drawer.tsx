@@ -9,6 +9,7 @@ interface Props {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   isSubmitting: boolean;
+  isDisabled: boolean;
   handleSubmit: () => void;
   render: () => JSX.Element;
 }
@@ -18,6 +19,7 @@ const FormDrawer: React.FC<Props> = ({
   isOpen,
   setIsOpen,
   isSubmitting,
+  isDisabled,
   handleSubmit,
   render
 }) => {
@@ -37,7 +39,7 @@ const FormDrawer: React.FC<Props> = ({
             <Button
               type="submit"
               className="w-full"
-              disabled={isSubmitting}
+              disabled={isDisabled}
               onClick={handleSubmit}
             >
               {isSubmitting ? "Submitting..." : "Submit"}

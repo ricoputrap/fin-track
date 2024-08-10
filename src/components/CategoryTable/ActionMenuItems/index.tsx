@@ -1,11 +1,12 @@
 "use client"
 
 import React from "react";
-import useCategoryStore from "../../../stores/category";
+import useCategoryStore, { EnumType } from "../../../stores/category";
 import { ICategory } from "@/db/schema";
 import { ActionButton } from "@/components/ui/drawer-container";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import CategoryDetailContent from "@/components/CategoryDetailContent";
+import EditCategoryForm from "@/components/EditCategoryForm";
 
 interface Props {
   data: ICategory;
@@ -14,6 +15,8 @@ interface Props {
 const ActionMenuItems: React.FC<Props> = ({ data }) => {
   const {
     setIsOpen,
+    setType,
+    setFormData,
     setTitle,
     setContent,
     setActionButtons
@@ -45,9 +48,20 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
       }
     ]
 
+    setType(EnumType.DETAIL);
     setTitle(title);
     setContent(<CategoryDetailContent data={data} />);
     setActionButtons(actionButtons);
+    setIsOpen(true);
+  }
+
+  const openEdit = () => {
+    setFormData({
+      id: data.id,
+      name: data.name,
+      type: data.type.toString()
+    })
+    setType(EnumType.EDIT);
     setIsOpen(true);
   }
 
@@ -56,8 +70,12 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
       <DropdownMenuItem onClick={openDetail}>
         View category
       </DropdownMenuItem>
-      <DropdownMenuItem>Edit category</DropdownMenuItem>
-      <DropdownMenuItem>Delete category</DropdownMenuItem>
+      <DropdownMenuItem onClick={openEdit}>
+        Edit category
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        Delete category
+      </DropdownMenuItem>
     </>
   )
 }

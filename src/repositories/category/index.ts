@@ -55,6 +55,16 @@ class CategoryRepository implements ICategoryRepository {
 
     return result[0];
   }
+
+  async editCategory(id: number, category: INewCategory): Promise<ICategory> {
+    const result = await db
+      .update(categories)
+      .set(category)
+      .where(eq(categories.id, id))
+      .returning();
+
+    return result[0];
+  }
 }
 
 export default CategoryRepository;

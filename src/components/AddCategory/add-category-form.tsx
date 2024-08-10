@@ -20,6 +20,7 @@ const AddCategoryForm: React.FC<Props> = ({ isOpen, setIsOpen }) => {
       title="Add Category"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
+      isDisabled={form.formState.isSubmitting || !form.formState.isDirty}
       isSubmitting={form.formState.isSubmitting}
       handleSubmit={handleSubmit}
       render={() => (
