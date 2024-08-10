@@ -6,7 +6,6 @@ import { ICategory } from "@/db/schema";
 import { ActionButton } from "@/components/ui/drawer-container";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import CategoryDetailContent from "@/components/CategoryDetailContent";
-import EditCategoryForm from "@/components/EditCategoryForm";
 
 interface Props {
   data: ICategory;
@@ -37,7 +36,7 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
         type: "button",
         disabled: false,
         variant: "default",
-        onClick: () => { console.log("EDIT") }
+        onClick: () => openEdit()
       },
       {
         label: "Delete",
