@@ -6,7 +6,7 @@ import { Form } from '@/components/ui/form';
 import FormInputField from '@/components/ui/form-input-field';
 import FormSelectField from '@/components/ui/form-select-field';
 import useCategoryStore from '@/stores/category';
-import FormDrawer from '@/components/ui/form-drawer';
+import FormDrawer, { ActionButton } from '@/components/ui/form-drawer';
 
 const EditCategoryForm: React.FC = () => {
   const { isOpen, setIsOpen, formData } = useCategoryStore();
@@ -26,14 +26,35 @@ const EditCategoryForm: React.FC = () => {
     });
   }, [formData]);
 
+  const isSubmitting = form.formState.isSubmitting;
+
+  const actionButtons: ActionButton[] = [
+    {
+      label: "Cancel",
+      type: "button",
+      variant: "outline",
+      onClick: () => {
+        form.reset();
+        setIsOpen(false);
+      },
+    },
+    {
+      label: isSubmitting ? "Saving..." : "Save",
+      type: "submit",
+      variant: "default",
+      disabled: isSubmitting || !form.formState.isDirty,
+      onClick: () => {
+        handleSubmit();
+      },
+    }
+  ]
+
   return (
     <FormDrawer
       title="Edit Category"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
-      isDisabled={form.formState.isSubmitting || !form.formState.isDirty}
-      isSubmitting={form.formState.isSubmitting}
-      handleSubmit={handleSubmit}
+      actionButtons={actionButtons}
       render={() => (
         <Form {...form}>
           <form

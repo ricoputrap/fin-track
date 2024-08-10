@@ -1,16 +1,22 @@
 "use client";
 
 import React from 'react'
-import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from './drawer';
+import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from './drawer';
 import { Button } from './button';
+
+export interface ActionButton {
+  label: string;
+  type: "submit" | "button";
+  disabled?: boolean;
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  onClick?: () => void;
+}
 
 interface Props {
   title: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  isSubmitting: boolean;
-  isDisabled: boolean;
-  handleSubmit: () => void;
+  actionButtons: ActionButton[];
   render: () => JSX.Element;
 }
 
@@ -18,9 +24,7 @@ const FormDrawer: React.FC<Props> = ({
   title,
   isOpen,
   setIsOpen,
-  isSubmitting,
-  isDisabled,
-  handleSubmit,
+  actionButtons,
   render
 }) => {
   return (
@@ -35,23 +39,19 @@ const FormDrawer: React.FC<Props> = ({
         </div>
 
         <DrawerFooter className="mt-auto flex flex-row gap-4">
-          <div className="flex-1">
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isDisabled}
-              onClick={handleSubmit}
-            >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </Button>
-          </div>
-          <div className="flex-1">
-            <DrawerClose asChild>
-              <Button type="button" variant="outline" className="w-full">
-                Cancel
+          {actionButtons.map((actionButton) => (
+            <div key={actionButton.label} className="flex-1">
+              <Button
+                type={actionButton.type}
+                className="w-full"
+                disabled={actionButton.disabled}
+                onClick={actionButton.onClick}
+                variant={actionButton.variant}
+              >
+                {actionButton.label}
               </Button>
-            </DrawerClose>
-          </div>
+            </div>
+          ))}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

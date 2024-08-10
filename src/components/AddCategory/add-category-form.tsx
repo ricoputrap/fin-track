@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Form } from '../ui/form';
-import FormDrawer from '../ui/form-drawer';
+import FormDrawer, { ActionButton } from '../ui/form-drawer';
 import FormInputField from '../ui/form-input-field';
 import FormSelectField from '../ui/form-select-field';
 import useAddCategoryForm from './hooks';
@@ -15,14 +15,34 @@ interface Props {
 const AddCategoryForm: React.FC<Props> = ({ isOpen, setIsOpen }) => {
   const { form, handleSubmit } = useAddCategoryForm(() => setIsOpen(false));
 
+  const isSubmitting = form.formState.isSubmitting;
+  const actionButtons: ActionButton[] = [
+    {
+      label: "Cancel",
+      type: "button",
+      variant: "outline",
+      onClick: () => {
+        form.reset();
+        setIsOpen(false);
+      },
+    },
+    {
+      label: isSubmitting ? "Submitting..." : "Submit",
+      type: "submit",
+      variant: "default",
+      disabled: isSubmitting || !form.formState.isDirty,
+      onClick: () => {
+        handleSubmit();
+      },
+    }
+  ]
+
   return (
     <FormDrawer
       title="Add Category"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
-      isDisabled={form.formState.isSubmitting || !form.formState.isDirty}
-      isSubmitting={form.formState.isSubmitting}
-      handleSubmit={handleSubmit}
+      actionButtons={actionButtons}
       render={() => (
         <Form {...form}>
           <form className="h-full flex flex-col justify-between">
