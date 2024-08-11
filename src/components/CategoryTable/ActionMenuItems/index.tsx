@@ -6,6 +6,7 @@ import { ICategory } from "@/db/schema";
 import { ActionButton } from "@/components/ui/drawer-container";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import CategoryDetailContent from "@/components/CategoryDetailContent";
+import useDialogStore from "@/stores/dialog";
 
 interface Props {
   data: ICategory;
@@ -20,6 +21,11 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
     setContent,
     setActionButtons
   } = useCategoryStore();
+
+  const {
+    setIsOpen: setIsDialogOpen,
+    setData: setDialogData
+  } = useDialogStore();
 
   const openDetail = () => {
     const title = "View Category";
@@ -36,14 +42,14 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
         type: "button",
         disabled: false,
         variant: "default",
-        onClick: () => openEdit()
+        onClick: openEdit
       },
       {
         label: "Delete",
         type: "button",
         disabled: false,
         variant: "destructive",
-        onClick: () => { console.log("DELETE") }
+        onClick: openDeleteConfirmationDialog
       }
     ]
 
@@ -64,6 +70,31 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
     setIsOpen(true);
   }
 
+  const openDeleteConfirmationDialog = () => {
+    setDialogData({
+      title: "Delete Category",
+      description: "Are you sure you want to delete this category?",
+      actionButtons: [
+        {
+          label: "Cancel",
+          type: "button",
+          disabled: false,
+          variant: "outline",
+          onClick: () => { setIsDialogOpen(false) }
+        },
+        {
+          label: "Delete",
+          type: "button",
+          disabled: false,
+          variant: "destructive",
+          onClick: () => { console.log("DELETE") }
+        }
+      ]
+    });
+
+    setIsDialogOpen(true)
+  }
+
   return (
     <>
       <DropdownMenuItem onClick={openDetail}>
@@ -72,7 +103,7 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
       <DropdownMenuItem onClick={openEdit}>
         Edit category
       </DropdownMenuItem>
-      <DropdownMenuItem>
+      <DropdownMenuItem onClick={openDeleteConfirmationDialog}>
         Delete category
       </DropdownMenuItem>
     </>
