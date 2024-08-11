@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react";
-import useCategoryStore, { EnumType } from "../../../stores/category";
 import { ICategory } from "@/db/schema";
 import { ActionButton } from "@/components/ui/drawer-container";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -9,6 +8,9 @@ import CategoryDetailContent from "@/components/CategoryDetailContent";
 import useDialogStore from "@/stores/dialog";
 import deleteCategory from "@/server/categories/delete";
 import { useToast } from "@/components/ui/use-toast";
+import useDrawerStore from "@/stores/drawer";
+import useCategoryForm from "@/hooks/category-form";
+import EditCategory from "@/components/EditCategory";
 
 interface Props {
   data: ICategory;
@@ -18,13 +20,16 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
   const { toast } = useToast();
 
   const {
-    setIsOpen,
-    setType,
-    setFormData,
-    setTitle,
-    setContent,
-    setActionButtons
-  } = useCategoryStore();
+    setIsOpen: setIsDrawerOpen,
+    setData: setDrawerData
+  } = useDrawerStore();
+
+  const { form, handleSubmit } = useCategoryForm({
+    id: data.id,
+    name: data.name,
+    type: data.type.toString(),
+    close: () => { setIsDrawerOpen(false) }
+  })
 
   const {
     setIsOpen: setIsDialogOpen,
@@ -32,14 +37,13 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
   } = useDialogStore();
 
   const openDetail = () => {
-    const title = "View Category";
     const actionButtons: ActionButton[] = [
       {
         label: "Cancel",
         type: "button",
         disabled: false,
         variant: "outline",
-        onClick: () => { setIsOpen(false) }
+        onClick: () => { setIsDrawerOpen(false) }
       },
       {
         label: "Edit",
@@ -56,22 +60,38 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
         onClick: openDeleteConfirmationDialog
       }
     ]
-
-    setType(EnumType.DETAIL);
-    setTitle(title);
-    setContent(<CategoryDetailContent data={data} />);
-    setActionButtons(actionButtons);
-    setIsOpen(true);
+    setDrawerData({
+      title: "View Category",
+      content: <CategoryDetailContent data={data} />,
+      actionButtons
+    })
+    setIsDrawerOpen(true);
   }
 
   const openEdit = () => {
-    setFormData({
-      id: data.id,
-      name: data.name,
-      type: data.type.toString()
-    })
-    setType(EnumType.EDIT);
-    setIsOpen(true);
+    const actionButtons: ActionButton[] = [
+      {
+        label: "Cancel",
+        type: "button",
+        disabled: false,
+        variant: "outline",
+        onClick: () => { setIsDrawerOpen(false) }
+      },
+      {
+        label: "Save",
+        type: "submit",
+        disabled: false,
+        variant: "default",
+        onClick: handleSubmit
+      }
+    ];
+
+    setDrawerData({
+      title: "Edit Category",
+      content: <EditCategory form={form} />,
+      actionButtons
+    });
+    setIsDrawerOpen(true);
   }
 
   const deleteItem = async () => {
@@ -83,7 +103,7 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
     });
 
     setIsDialogOpen(false);
-    setIsOpen(false);
+    setIsDrawerOpen(false);
   }
 
   const openDeleteConfirmationDialog = () => {
