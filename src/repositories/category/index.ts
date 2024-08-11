@@ -65,6 +65,12 @@ class CategoryRepository implements ICategoryRepository {
 
     return result[0];
   }
+
+  async deleteCategory(id: number): Promise<void> {
+    await db
+      .delete(categories)
+      .where(eq(categories.id, id));
+  }
 }
 
 export default CategoryRepository;

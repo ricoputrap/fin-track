@@ -7,12 +7,16 @@ import { ActionButton } from "@/components/ui/drawer-container";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import CategoryDetailContent from "@/components/CategoryDetailContent";
 import useDialogStore from "@/stores/dialog";
+import deleteCategory from "@/server/categories/delete";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
   data: ICategory;
 }
 
 const ActionMenuItems: React.FC<Props> = ({ data }) => {
+  const { toast } = useToast();
+
   const {
     setIsOpen,
     setType,
@@ -70,6 +74,18 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
     setIsOpen(true);
   }
 
+  const deleteItem = async () => {
+    await deleteCategory(data.id);
+
+    toast({
+      title: "Success!",
+      description: "Category deleted."
+    });
+
+    setIsDialogOpen(false);
+    setIsOpen(false);
+  }
+
   const openDeleteConfirmationDialog = () => {
     setDialogData({
       title: "Delete Category",
@@ -87,7 +103,7 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
           type: "button",
           disabled: false,
           variant: "destructive",
-          onClick: () => { console.log("DELETE") }
+          onClick: deleteItem
         }
       ]
     });
