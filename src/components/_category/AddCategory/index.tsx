@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react'
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import useDrawerStore, { ActionButton } from '@/stores/drawer';
 import useCategoryForm from '@/hooks/category-form';
 import { DEFAULT_NUM } from '@/constants';

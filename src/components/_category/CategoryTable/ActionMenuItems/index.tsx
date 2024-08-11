@@ -4,13 +4,13 @@ import React from "react";
 import { ICategory } from "@/db/schema";
 import { ActionButton } from "@/components/ui/drawer-container";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import CategoryDetailContent from "@/components/CategoryDetailContent";
+import CategoryDetailContent from "@/components/_category/CategoryDetailContent";
 import useDialogStore from "@/stores/dialog";
 import deleteCategory from "@/server/categories/delete";
 import { useToast } from "@/components/ui/use-toast";
 import useDrawerStore from "@/stores/drawer";
 import useCategoryForm from "@/hooks/category-form";
-import CategoryForm from "@/components/CategoryForm";
+import CategoryForm from "@/components/_category/CategoryForm";
 
 interface Props {
   data: ICategory;

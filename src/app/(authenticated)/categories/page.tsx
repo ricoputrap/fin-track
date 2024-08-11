@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
-import CategoryTable from "@/components/CategoryTable"
-import AddCategory from "@/components/AddCategory";
+import CategoryTable from "@/components/_category/CategoryTable"
+import AddCategory from "@/components/_category/AddCategory";
 
 export default function Page() {
 

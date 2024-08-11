@@ -1,8 +1,8 @@
 import React from 'react'
-import { Form } from '../ui/form'
+import { Form } from '../../ui/form'
 import { UseFormReturn } from 'react-hook-form';
-import FormInputField from '../ui/form-input-field';
-import FormSelectField from '../ui/form-select-field';
+import FormInputField from '../../ui/form-input-field';
+import FormSelectField from '../../ui/form-select-field';
 import { Category } from '@/hooks/category-form';
 
 interface Props {
