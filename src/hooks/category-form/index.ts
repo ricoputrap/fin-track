@@ -1,5 +1,7 @@
 import { useToast } from "@/components/ui/use-toast";
+import { DEFAULT_NUM } from "@/constants";
 import { categorySchema } from "@/schemas";
+import { addCategory } from "@/server/categories";
 import editCategory from "@/server/categories/edit";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -26,13 +28,24 @@ const useCategoryForm = ({ id, name, type, close }: Params) => {
   });
 
   const onSubmit = async (data: Category) => {
-    const result = await editCategory(id, data);
+    const isActionEdit = id !== DEFAULT_NUM;
+
+    const result = isActionEdit
+      ? await editCategory(id, data)
+      : await addCategory(data);
 
     // show an error toast if the request fails
     if (!result.success) {
+      let description = result.error.message;
+      if (!description) {
+        description = isActionEdit
+          ? "Failed to edit the category."
+          : "Failed to add new category."
+      }
+
       toast({
         title: "Error!",
-        description: result.error.message || "Failed to edit the category.",
+        description,
         variant: "destructive"
       });
 
@@ -46,7 +59,7 @@ const useCategoryForm = ({ id, name, type, close }: Params) => {
     // show a success toast
     toast({
       title: "Success!",
-      description: "Category edited.",
+      description: isActionEdit ? "Category edited." : "New category added.",
     });
   }
 

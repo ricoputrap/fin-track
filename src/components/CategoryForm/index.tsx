@@ -5,12 +5,11 @@ import FormInputField from '../ui/form-input-field';
 import FormSelectField from '../ui/form-select-field';
 import { Category } from '@/hooks/category-form';
 
-
 interface Props {
   form: UseFormReturn<Category>
 }
 
-const EditCategory: React.FC<Props> = ({ form }) => {
+const CategoryForm: React.FC<Props> = ({ form }) => {
   return (
     <Form {...form}>
       <form className="h-full flex flex-col justify-between">
@@ -38,4 +37,4 @@ const EditCategory: React.FC<Props> = ({ form }) => {
   )
 }
 
-export default EditCategory
+export default CategoryForm

@@ -10,7 +10,7 @@ import deleteCategory from "@/server/categories/delete";
 import { useToast } from "@/components/ui/use-toast";
 import useDrawerStore from "@/stores/drawer";
 import useCategoryForm from "@/hooks/category-form";
-import EditCategory from "@/components/EditCategory";
+import CategoryForm from "@/components/CategoryForm";
 
 interface Props {
   data: ICategory;
@@ -88,7 +88,7 @@ const ActionMenuItems: React.FC<Props> = ({ data }) => {
 
     setDrawerData({
       title: "Edit Category",
-      content: <EditCategory form={form} />,
+      content: <CategoryForm form={form} />,
       actionButtons
     });
     setIsDrawerOpen(true);
