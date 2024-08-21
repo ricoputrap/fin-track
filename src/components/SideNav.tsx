@@ -52,9 +52,9 @@ const SideNav: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="flex flex-col w-64 bg-gray-100">
-      <div className="min-h-20 px-4">
-        <div className="h-full py-4 border-b border-gray-300 flex gap-3 justify-center items-center">
+    <aside className="flex flex-col w-64 bg-gray-100 border-r border-gray-300">
+      <div className="min-h-16 px-4">
+        <div className="h-full border-b border-gray-300 flex gap-3 justify-center items-center">
           <Image
             src="/logo.svg"
             alt="logo"

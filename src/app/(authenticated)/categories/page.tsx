@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import CategoryTable from "@/components/_category/CategoryTable"
 import AddCategory from "@/components/_category/AddCategory";
+import SkeletonTable from "@/components/ui/skeleton-table";
 
 export default function Page() {
 
@@ -11,7 +12,7 @@ export default function Page() {
       </div>
 
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<SkeletonTable />}>
           <CategoryTable />
         </Suspense>
       </div>
